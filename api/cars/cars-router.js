@@ -45,4 +45,27 @@ router.post(
     }
   }
 );
+
+router.put(
+  "/:id",
+  md.checkCarId,
+  md.checkCarPayload,
+  async (req, res, next) => {
+    try {
+      const updatedCar = await CarModels.updateById(req.params.id, req.body);
+      res.json(updatedCar);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.delete("/:id", md.checkCarId, async (req, res, next) => {
+  try {
+    await CarModels.deleteById(req.params.id);
+    res.json(req.car);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;
